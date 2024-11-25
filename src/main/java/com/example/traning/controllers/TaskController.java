@@ -3,6 +3,7 @@ package com.example.traning.controllers;
 
 import com.example.traning.models.Task;
 import com.example.traning.servies.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class TaskController {
 
     //INSERT TASK
     @PostMapping("/")
-    public ResponseEntity<?> createTask(@RequestBody Task task){
+    public ResponseEntity<?> createTask(@Valid @RequestBody Task task){
         Task newTask = taskService.createTask(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTask);
     }
@@ -64,7 +65,7 @@ public class TaskController {
 
     // [PUT] API สำหรับแก้ไขข้อมูล ของ Task todo-list
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTask(@PathVariable Long id , @RequestBody Task data){
+    public ResponseEntity<?> updateTask(@PathVariable Long id ,@Valid @RequestBody Task data){
         Optional<Task> task = taskService.updateTask(id, data);
         if(task.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found.");
