@@ -62,6 +62,26 @@ public class TaskController {
     }
 
 
+    // [PUT] API สำหรับแก้ไขข้อมูล ของ Task todo-list
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateTask(@PathVariable Long id , @RequestBody Task data){
+        Optional<Task> task = taskService.updateTask(id, data);
+        if(task.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(task);
+    }
+
+
+    // [DELETE] API สำหรับลบ Task todo-list
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTask(@PathVariable Long id){
+        if(taskService.deleteTask(id)){
+            return ResponseEntity.status(HttpStatus.OK).body("ok");
+        }
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found");
+    }
+
 
 
 }

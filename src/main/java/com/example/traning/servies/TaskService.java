@@ -46,4 +46,26 @@ public class TaskService {
         return taskRepository.findByNameIsContaining(name);
     }
 
+    // === function/method Service สำหรับ แก้ไขข้อมูล task todo-list
+    public Optional<Task> updateTask(Long id, Task task){
+        Optional<Task> getTask = taskRepository.findById(id);
+
+        if(getTask.isEmpty()){
+            return getTask;
+        }
+
+        task.setId(id);
+        return Optional.of(taskRepository.save(task));
+    }
+
+    // === function/method Service สำหรับ ลบข้อมูล task todo-list
+    public boolean deleteTask(Long id) {
+        Optional<Task> getTask = taskRepository.findById(id);
+        if (getTask.isEmpty()) {
+            return false;
+        }
+        taskRepository.deleteById(id);
+        return true;
+    }
+
 }
